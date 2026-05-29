@@ -1,0 +1,87 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Este archivo forma parte del marco de trabajo CodeIgniter 4.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * Para la informacion completa de copyright y licencia, consulta
+ * el archivo LICENSE distribuido con este codigo fuente.
+ */
+
+use CodeIgniter\Boot;
+use Config\Paths;
+
+/*
+ * --------------------------------------------------------------------
+ * HERRAMIENTAS DE LINEA DE COMANDOS DE CODEIGNITER
+ * --------------------------------------------------------------------
+ * Punto de entrada principal al sistema CLI; permite ejecutar comandos
+ * y hacer mantenimiento de la aplicacion.
+ */
+
+/*
+ *---------------------------------------------------------------
+ * COMPROBAR API DEL SERVIDOR
+ *---------------------------------------------------------------
+ */
+
+// Evita ejecutarlo si se llama desde php-cgi.
+if (str_starts_with(PHP_SAPI, 'cgi')) {
+    exit("The cli tool is not supported when running php-cgi. It needs php-cli to function!\n\n");
+}
+
+/*
+ *---------------------------------------------------------------
+ * COMPROBAR VERSION DE PHP
+ *---------------------------------------------------------------
+ */
+
+$minPhpVersion = '8.2'; // Si cambias esto, recuerda actualizar tambien `public/index.php`.
+if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
+    $message = sprintf(
+        'Your PHP version must be %s or higher to run CodeIgniter. Current version: %s',
+        $minPhpVersion,
+        PHP_VERSION,
+    );
+
+    exit($message);
+}
+
+// Queremos mostrar errores cuando se usa desde la CLI.
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+/*
+ *---------------------------------------------------------------
+ * DEFINIR EL DIRECTORIO ACTUAL
+ *---------------------------------------------------------------
+ */
+
+// Ruta al controlador frontal.
+define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
+
+// Asegura que el directorio actual apunte al directorio del controlador frontal.
+chdir(FCPATH);
+
+/*
+ *---------------------------------------------------------------
+ * ARRANQUE DE LA APLICACION
+ *---------------------------------------------------------------
+ * Este proceso configura las constantes de rutas, carga y registra
+ * nuestro autoloader junto con el de Composer, carga las constantes
+ * y arranca la configuracion especifica del entorno.
+ */
+
+// CARGA EL ARCHIVO DE CONFIGURACION DE RUTAS
+// Esta linea puede necesitar cambios segun la estructura de carpetas.
+require FCPATH . '../app/Config/Paths.php';
+// ^^^ Cambia esta linea si mueves la carpeta de la aplicacion.
+
+$paths = new Paths();
+
+// CARGA EL ARCHIVO DE ARRANQUE DEL MARCO DE TRABAJO
+require $paths->systemDirectory . '/Boot.php';
+
+exit(Boot::bootSpark($paths));

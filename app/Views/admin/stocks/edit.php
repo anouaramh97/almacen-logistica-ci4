@@ -1,0 +1,5 @@
+<?php // Vista de administracion: presenta datos y acciones internas del panel administrador. ?>
+<?= $this->extend('layouts/main') ?>
+<?= $this->section('content') ?>
+<section class="card form-card"><div class="heading"><h2>Ajustar stock</h2><p><?= esc($stock['product_name']) ?> · <?= esc($stock['warehouse_name']) ?></p></div><form method="post" action="<?= site_url('admin/stocks/update/'.$stock['id']) ?>"><?= csrf_field() ?><div class="grid-2"><div class="field"><label>Cantidad</label><input type="number" name="quantity" value="<?= esc($stock['quantity']) ?>" required></div><div class="field"><label>Mínimo</label><input type="number" name="minimum_quantity" value="<?= esc($stock['minimum_quantity']) ?>" required></div></div><button class="btn btn-primary">Guardar ajuste</button></form></section>
+<?= $this->endSection() ?>
