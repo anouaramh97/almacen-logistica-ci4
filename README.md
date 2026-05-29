@@ -1,69 +1,276 @@
-# CodeIgniter 4 Application Starter
+```markdown
+# Logística Pro
 
-## What is CodeIgniter?
+Aplicación web desarrollada con **CodeIgniter 4** para la gestión de almacén, productos, existencias, pedidos, rutas, entregas, facturas y comunicación interna.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+El sistema centraliza el flujo completo desde la creación de un pedido por parte del cliente hasta su preparación, asignación logística, reparto y entrega final.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Características principales
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- Gestión de usuarios por roles.
+- Panel separado para cliente, administrador, logística y conductor.
+- Gestión de productos, categorías, imágenes y existencias.
+- Creación y seguimiento de pedidos.
+- Confirmación de pedidos y control de stock.
+- Generación de facturas.
+- Planificación de rutas de reparto.
+- Gestión de entregas e incidencias.
+- Mensajería interna relacionada con pedidos.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## Tecnologías utilizadas
 
-## Installation & updates
+- PHP 8.2+
+- CodeIgniter 4
+- MySQL / MariaDB
+- XAMPP
+- phpMyAdmin
+- HTML5
+- CSS3
+- JavaScript
+- Composer
+- Dompdf
+- PHPUnit
+- Git / GitHub
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Instalación en local
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### 1. Clonar o descargar el proyecto
 
-## Setup
+Clonar el repositorio:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+```bash
+git clone https://github.com/anouaramh97/almacen-logistica-ci4.git
+```
 
-## Important Change with index.php
+O descargar el proyecto en formato ZIP desde GitHub y descomprimirlo dentro de:
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```text
+C:\xampp\htdocs\almacen-logistica-ci4
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 2. Dependencias del proyecto
 
-**Please** read the user guide for a better explanation of how CI4 works!
+El proyecto utiliza Composer para gestionar las dependencias de CodeIgniter 4.
 
-## Repository Management
+Si el proyecto ya incluye la carpeta:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```text
+vendor/
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+no es necesario ejecutar ningún comando adicional.
 
-## Server Requirements
+Si la carpeta `vendor/` no está incluida, entrar en la carpeta del proyecto:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+```bash
+cd C:\xampp\htdocs\almacen-logistica-ci4
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+y ejecutar:
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+```bash
+composer install
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+### 3. Configurar el archivo `.env`
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Copiar el archivo `env` y renombrarlo como `.env`.
+
+Configurar la base de datos:
+
+```env
+CI_ENVIRONMENT = development
+
+app.baseURL = 'http://localhost/almacen-logistica-ci4/public/'
+
+database.default.hostname = 127.0.0.1
+database.default.database = almacen_logistica_ci4
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+```
+
+Si MySQL usa otro puerto, modificar `database.default.port`.
+
+### 4. Crear e importar la base de datos
+
+Abrir phpMyAdmin:
+
+```text
+http://localhost/phpmyadmin
+```
+
+Crear una base de datos llamada:
+
+```text
+almacen_logistica_ci4
+```
+
+Importar el archivo:
+
+```text
+almacen_logistica_ci4.sql
+```
+
+### 5. Ejecutar el proyecto
+
+Iniciar Apache y MySQL desde XAMPP.
+
+Abrir en el navegador:
+
+```text
+http://localhost/almacen-logistica-ci4/public/
+```
+
+## Instalación en hosting
+
+### 1. Subir archivos al servidor
+
+Subir el proyecto al hosting mediante FTP, administrador de archivos o Git.
+
+En CodeIgniter 4, el punto de entrada público está dentro de:
+
+```text
+public/index.php
+```
+
+Por seguridad, lo recomendable es que el dominio apunte directamente a la carpeta:
+
+```text
+public/
+```
+
+### 2. Dependencias en hosting
+
+Si se sube al hosting el proyecto completo incluyendo la carpeta:
+
+```text
+vendor/
+```
+
+no es necesario ejecutar Composer en el servidor.
+
+Si no se sube la carpeta `vendor/` y el hosting permite Composer, ejecutar:
+
+```bash
+composer install --no-dev
+```
+
+Si el hosting no permite Composer, ejecutar `composer install` en local y subir después la carpeta `vendor/`.
+
+### 3. Crear la base de datos en el hosting
+
+Desde el panel del hosting, crear una base de datos MySQL/MariaDB.
+
+Después importar el archivo:
+
+```text
+almacen_logistica_ci4.sql
+```
+
+### 4. Configurar `.env` en el hosting
+
+Editar el archivo `.env` con los datos reales del servidor:
+
+```env
+CI_ENVIRONMENT = production
+
+app.baseURL = 'https://tudominio.com/'
+
+database.default.hostname = servidor_mysql
+database.default.database = nombre_base_datos
+database.default.username = usuario_base_datos
+database.default.password = contraseña_base_datos
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+```
+
+### 5. Permisos de carpetas
+
+Asegurar permisos de escritura para:
+
+```text
+writable/
+```
+
+Esta carpeta se usa para logs, caché y archivos generados por la aplicación.
+
+## Usuarios de prueba
+
+| Perfil | Correo |
+|---|---|
+| Administrador | admin@almacen.com |
+| Logística | logistica@almacen.com |
+| Conductor | conductor@almacen.com |
+| Cliente | cliente@almacen.com |
+
+## Estructura general
+
+```text
+app/
+├── Controllers/
+├── Models/
+├── Views/
+├── Filters/
+├── Config/
+├── Database/
+
+public/
+├── index.php
+
+writable/
+├── logs/
+├── cache/
+
+vendor/
+├── dependencias de Composer
+```
+
+## Base de datos
+
+La base de datos está formada por entidades relacionadas para gestionar usuarios, catálogo, existencias, pedidos, facturas, rutas, entregas y mensajes.
+
+Tablas principales:
+
+- roles_sistema
+- usuarios
+- categorias
+- productos
+- imagenes_producto
+- almacenes
+- existencias
+- pedidos
+- detalles_pedido
+- facturas
+- rutas
+- entregas
+- conversaciones
+- mensajes
+
+## Flujo principal
+
+```text
+Cliente crea pedido
+→ Administrador revisa y confirma
+→ Se descuenta stock
+→ Se genera factura
+→ Logística crea ruta
+→ Conductor realiza entrega
+→ Pedido entregado o incidencia registrada
+```
+
+## Pruebas
+
+Para ejecutar las pruebas del proyecto:
+
+```bash
+vendor\bin\phpunit
+```
+
+## Repositorio
+
+```text
+https://github.com/anouaramh97/almacen-logistica-ci4
+```
+```
